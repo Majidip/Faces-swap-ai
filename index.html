@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FaceSwapAI — Viral Image Generator</title>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body class="dark-theme">
+  <header class="topbar">
+    <div class="brand"><span class="neon">FaceSwapAI</span></div>
+    <div class="top-actions">
+      <a href="/explore.html" class="btn small ghost">Explore</a>
+      <a href="/profile.html" class="btn small ghost">Profile</a>
+      <a href="/admin.html" class="btn small ghost">Admin</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero card-dark">
+      <h1 class="neon">Turn Your Photo Into Viral Art</h1>
+      <p class="muted">Upload your face, pick a trending template, get viral-ready images.</p>
+      <div id="visitorCredits" class="credits">Credits: <b>—</b></div>
+    </section>
+
+    <section class="card-dark templates-section">
+      <h3>🔥 Trending Styles</h3>
+      <div id="templateGrid" class="grid"></div>
+    </section>
+
+    <section class="card-dark result-section">
+      <h3>✨ Result</h3>
+      <div id="resultBox" class="resultBox muted">No generation yet</div>
+    </section>
+  </main>
+
+  <div id="notifContainer" style="position:fixed; right:16px; bottom:16px; z-index:9999;"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/assets/script.js"></script>
+</body>
+</html>

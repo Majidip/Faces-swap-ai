@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login — FaceSwapAI</title>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body class="dark-theme">
+  <main class="container" style="max-width:420px;margin-top:60px">
+    <section class="card-dark">
+      <h2>Sign In / Sign Up</h2>
+      <div id="authTabs">
+        <input id="email" class="input-dark" placeholder="Email"/>
+        <input id="password" type="password" class="input-dark" placeholder="Password"/>
+        <div class="row"><button class="btn accent" onclick="doLogin()">Login</button><button class="btn" onclick="goSignup()">Signup</button></div>
+        <div style="margin-top:10px"><button class="btn ghost" onclick="dummyGoogle()">Continue with Google</button><button class="btn ghost" onclick="dummyFB()">Continue with Facebook</button></div>
+      </div>
+      <div id="authMsg" class="muted small"></div>
+    </section>
+  </main>
+
+<script src="/assets/script.js"></script>
+<script>
+  function doLogin(){
+    const email=document.getElementById('email').value.trim();
+    const pass=document.getElementById('password').value.trim();
+    fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email, password:pass})})
+      .then(r=>r.json()).then(j=>{
+        if(j.ok){ localStorage.setItem('fsai_token', j.token); localStorage.setItem('fsai_user', JSON.stringify(j.user)); window.location='/'; }
+        else document.getElementById('authMsg').innerText = j.error || 'Login failed';
+      });
+  }
+  function goSignup(){ window.location='/signup.html'; }
+  function dummyGoogle(){ alert('Dummy Google flow — creates demo user'); fetch('/api/auth/oauth/google',{method:'POST'}).then(()=>window.location='/'); }
+  function dummyFB(){ alert('Dummy Facebook flow — creates demo user'); fetch('/api/auth/oauth/facebook',{method:'POST'}).then(()=>window.location='/'); }
+</script>
+</body>
+</html>

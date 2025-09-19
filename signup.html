@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Signup</title><link rel="stylesheet" href="/assets/style.css"></head><body class="dark-theme">
+<main class="container" style="max-width:420px;margin-top:60px">
+<section class="card-dark">
+<h2>Create account</h2>
+<input id="su_name" class="input-dark" placeholder="Full name"/>
+<input id="su_email" class="input-dark" placeholder="Email"/>
+<input id="su_pass" type="password" class="input-dark" placeholder="Password"/>
+<input id="su_phone" class="input-dark" placeholder="Mobile (optional)"/>
+<div class="row"><button class="btn accent" onclick="doSignup()">Create</button><button class="btn" onclick="window.location='/login.html'">Cancel</button></div>
+<div id="suMsg" class="muted small"></div>
+</section>
+</main>
+<script src="/assets/script.js"></script>
+<script>
+function doSignup(){
+  const name=document.getElementById('su_name').value, email=document.getElementById('su_email').value, pass=document.getElementById('su_pass').value, phone=document.getElementById('su_phone').value;
+  fetch('/api/auth/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password:pass,phone})})
+  .then(r=>r.json()).then(j=>{ if(j.ok){ localStorage.setItem('fsai_token', j.token); localStorage.setItem('fsai_user', JSON.stringify(j.user)); window.location='/'; } else document.getElementById('suMsg').innerText = j.error || 'Signup failed'; });
+}
+</script>
+</body></html>

@@ -1,0 +1,14 @@
+:root{ --bg:#07070b; --card: linear-gradient(180deg, rgba(18,18,20,0.9), rgba(10,10,12,0.85)); --accent1: #ff6aa6; --accent2: #ffd36b; --muted: #9aa6b2; }
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:#e6eef8}
+.container{max-width:1100px;margin:20px auto;padding:0 16px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.02)}
+.brand .neon{background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;font-size:20px}
+.btn{padding:8px 12px;border-radius:10px;border:none;background:rgba(255,255,255,0.04);color:inherit;cursor:pointer}
+.card-dark{background:var(--card);border:1px solid rgba(255,255,255,0.03);padding:18px;border-radius:14px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.admin-wrap{display:flex}
+.admin-sidebar{width:220px;padding:20px;background:linear-gradient(180deg, rgba(12,12,15,0.96), rgba(6,6,8,0.96));border-right:1px solid rgba(255,255,255,0.03);min-height:100vh}
+.admin-main{flex:1;padding:22px}
+.muted{color:var(--muted)}
+.input-dark{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:inherit;padding:10px;border-radius:10px;width:100%}
+.notif{background:linear-gradient(90deg,#111827cc,#0b1220cc);border-left:4px solid rgba(255,106,166,0.9);color:#e6eef8;padding:12px 14px;margin-top:10px;border-radius:10px;min-width:260px}

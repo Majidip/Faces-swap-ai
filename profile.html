@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Profile — FaceSwapAI</title>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body class="dark-theme">
+  <header class="topbar">
+    <div class="brand"><span class="neon">FaceSwapAI</span></div>
+    <div class="top-actions">
+      <a href="/" class="btn small ghost">Home</a>
+      <a href="/explore.html" class="btn small ghost">Explore</a>
+      <a href="/admin.html" class="btn small ghost">Admin</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card-dark">
+      <h3>Your Profile</h3>
+      <div id="profileInfo" class="muted">Loading...</div>
+    </section>
+
+    <section class="card-dark">
+      <h3>My Creations</h3>
+      <div id="myCreations" class="grid"></div>
+    </section>
+
+    <section class="card-dark">
+      <h3>Liked Images</h3>
+      <div id="myLiked" class="grid"></div>
+    </section>
+  </main>
+
+  <div id="notifContainer" style="position:fixed; right:16px; bottom:16px; z-index:9999;"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/assets/script.js"></script>
+<script>
+  async function loadProfile(){
+    const user = JSON.parse(localStorage.getItem('fsai_user')||'null');
+    if(!user){ window.location = '/login.html'; return; }
+    document.getElementById('profileInfo').innerHTML = `<div><b>${user.name}</b> • ${user.email}</div><div id="followers-${user.id}">Followers: ${user.followers?user.followers.length:0}</div>`;
+    // load creations
+    const res = await fetch('/api/profile/'+user.id);
+    const data = await res.json();
+    const c = document.getElementById('myCreations'); c.innerHTML=''; (data.generatedImages||[]).forEach(img=>{
+      const d = document.createElement('div'); d.className='card-dark';
+      d.innerHTML = `<img src="${img.url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px"/><div class="row" style="margin-top:8px"><button class="btn" onclick="downloadData('${img.url}')">Download</button><button class="btn ghost" onclick="makePublic('${img.id}')">Make Public</button></div>`;
+      c.appendChild(d);
+    });
+    // liked
+    const l = document.getElementById('myLiked'); l.innerHTML=''; (data.likedImages||[]).forEach(img=>{
+      const d = document.createElement('div'); d.className='card-dark';
+      d.innerHTML = `<img src="${img.url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px"/><div class="muted text-xs">Likes: ${img.likes||0}</div>`;
+      l.appendChild(d);
+    });
+  }
+  loadProfile();
+</script>
+</body>
+</html>

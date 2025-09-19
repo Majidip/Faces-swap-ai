@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": "u_admin",
+      "name": "Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "credits": 1000,
+      "followers": [],
+      "following": [],
+      "generatedImages": []
+    }
+  ],
+  "public_gallery": [
+    {
+      "id": "img_1",
+      "userId": "u_admin",
+      "userHandle": "admin",
+      "url": "/assets/sample1.jpg",
+      "likes": 2,
+      "likedBy": [
+        "u_admin"
+      ]
+    },
+    {
+      "id": "img_2",
+      "userId": "u_admin",
+      "userHandle": "admin",
+      "url": "/assets/sample2.jpg",
+      "likes": 1,
+      "likedBy": [
+        "u_admin"
+      ]
+    }
+  ],
+  "templates": [],
+  "notifications": []
+}

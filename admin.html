@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Admin</title><link rel="stylesheet" href="/assets/style.css"></head><body class="dark-theme">
+<div class="admin-wrap">
+  <aside class="admin-sidebar">
+    <div class="brand"><span class="neon">FaceSwapAI</span></div>
+    <nav class="menu">
+      <button class="menu-item" onclick="showAdmin('dashboard')">Dashboard</button>
+      <button class="menu-item" onclick="showAdmin('gallery')">Gallery Manager</button>
+      <button class="menu-item" onclick="showAdmin('users')">Users</button>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <header class="admin-header"><h2>Admin</h2></header>
+    <section id="dashboard" class="admin-tab"><h3>Overview</h3><div id="adminKPI"></div></section>
+    <section id="gallery" class="admin-tab hidden"><h3>Public Gallery</h3><div id="adminGallery"></div></section>
+    <section id="users" class="admin-tab hidden"><h3>Users</h3><div id="adminUsers"></div></section>
+  </main>
+</div>
+<div id="notifContainer" style="position:fixed; right:16px; bottom:16px; z-index:9999;"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/assets/script.js"></script>
+<script>
+function showAdmin(id){ document.querySelectorAll('.admin-tab').forEach(t=>t.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); if(id==='gallery') loadAdminGallery(); if(id==='users') loadAdminUsers(); }
+function loadAdminGallery(){ fetch('/api/public-gallery').then(r=>r.json()).then(data=>{ const c=document.getElementById('adminGallery'); c.innerHTML=''; data.forEach(img=>{ const d=document.createElement('div'); d.className='card-dark'; d.innerHTML = `<img src="${img.url}" style="width:140px;height:84px;object-fit:cover;border-radius:8px"/><div class="muted text-xs">Likes: ${img.likes||0}</div><div class="row" style="margin-top:8px"><button class="btn" onclick="adminDeleteImage('${img.id}')">Delete</button><button class="btn ghost" onclick="adminResetLikes('${img.id}')">Reset Likes</button></div>`; c.appendChild(d); }); }); }
+function loadAdminUsers(){ fetch('/api/users',{headers:{'x-admin-pin':'0000'}}).then(r=>r.json()).then(u=>{ const c=document.getElementById('adminUsers'); c.innerHTML=''; u.forEach(user=>{ const d=document.createElement('div'); d.className='card-dark'; d.innerHTML=`<div><b>${user.name}</b><div class="muted text-xs">${user.email}</div></div><div class="row"><button class="btn" onclick="adminDeleteUser('${user.id}')">Delete</button></div>`; c.appendChild(d); }) }); }
+async function adminDeleteImage(id){ await fetch('/api/public-gallery/'+id,{method:'DELETE',headers:{'x-admin-pin':'0000'}}); loadAdminGallery(); }
+async function adminResetLikes(id){ await fetch('/api/public-gallery/'+id+'/reset',{method:'POST',headers:{'x-admin-pin':'0000'}}); loadAdminGallery(); }
+async function adminDeleteUser(id){ await fetch('/api/users/'+id,{method:'DELETE',headers:{'x-admin-pin':'0000'}}); loadAdminUsers(); }
+</script>
+</body></html>
