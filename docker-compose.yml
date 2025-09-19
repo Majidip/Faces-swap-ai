@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  app:
+    build: ./server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/db.json:/usr/src/app/db.json
+      - ./public:/usr/src/app/public
+    environment:
+      - NODE_ENV=development
